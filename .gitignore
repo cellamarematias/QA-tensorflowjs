@@ -1,0 +1,20 @@
+# Dependencias
+/node_modules
+
+# Archivos de compilación y construcción
+/dist
+/build
+
+# Archivos de registro y salida
+/logs
+/*.log
+
+# Entorno específico
+.env
+
+# Archivos de configuración local
+/config/*.json
+
+# Dependencias específicas de IDE
+.idea
+.vscode

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Q&A con TensorFlow.js</title>
+  <!-- Make sure your page supports utf-8 characterset. -->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <h1>Q&A con TensorFlow.js</h1>
+  <div>
+    <label for="question">Pregunta:</label>
+    <input type="text" id="question" />
+    <button onclick="findAnswer()">Buscar respuesta</button>
+  </div>
+  <div id="answer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@vitalets/google-translate-api"></script>
+  <script>
+    async function translateText(text, targetLanguage) {
+      const translatedText = await new Promise((resolve, reject) => {
+        googleTranslate.translate(text, targetLanguage, (error, translation) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(translation.translatedText);
+          }
+        });
+      });
+
+      console.log(translateText)
+      return translatedText;
+    }
+
+    async function findAnswer() {
+      const question = document.getElementById('question').value;
+      const text = "Cobranzas Extrajudiciales 6/6/asdfasdf2023, 19:20:37 M Tel. 0341-3363280 Wwww.mgcobranzas.com.ar Rosario, Santa Fe mgemgcobranzas.com.ar CupÃ³n de Pago Titular: Oona Fecha de emisiÃ³n: 6/2023 Identificador: 34261431 Vencimineto: 10/06/2023 Cliente: Id. Pago: 2978 CÃ³digo de pago: 57633426143 1029780040005 Vencimiento: 10/06/2023 Total: $4000";
+      const targetLanguage = 'en';
+
+      const translatedText = await translateText(text, targetLanguage);
+
+      const response = await fetch(`/qna?question=${encodeURIComponent(question)}&text=${encodeURIComponent(translatedText)}`);
+      const answers = await response.json();
+
+      document.getElementById('answer').innerHTML = JSON.stringify(answers, null, 2);
+    }
+  </script>
+</body>
+</html>
